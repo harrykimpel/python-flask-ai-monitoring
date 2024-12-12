@@ -3,6 +3,7 @@ import newrelic.agent
 import os
 from flask import Flask, render_template, request
 import google.generativeai as genai
+import markdown
 
 genai.configure(api_key=os.environ["API_KEY"])
 
@@ -41,7 +42,8 @@ def home():
 def prompt():
     input_prompt = request.form.get("input")
     output_prompt = chatCompletion(input_prompt)
-    return render_template("index.html", output=output_prompt)
+    html_output = markdown.markdown(output_prompt)
+    return render_template("index.html", output=html_output)
 
 # make the server publicly available via port 5004
 # flask --app levelsix.py run --host 0.0.0.0 --port 5004

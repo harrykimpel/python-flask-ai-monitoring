@@ -17,7 +17,7 @@
   </form>
     {% if output %}
     <label for="output">Output:</label>
-    <p>{{ output }}</p>
+    <div id="markdown-preview">{{ output | safe }}</div>
     {% endif %}
 </body>
 </html>

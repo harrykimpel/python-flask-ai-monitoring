@@ -5,6 +5,7 @@ from flask import Flask, render_template, request
 import boto3
 from botocore.exceptions import ClientError
 import json
+import markdown
 
 # Create a Bedrock Runtime client in the AWS Region you want to use.
 client = boto3.client("bedrock-runtime", region_name="us-east-1")
@@ -129,7 +130,8 @@ def home():
 def prompt():
     input_prompt = request.form.get("input")
     output_prompt = chatCompletion(input_prompt)
-    return render_template("index.html", output=output_prompt)
+    html_output = markdown.markdown(output_prompt)
+    return render_template("index.html", output=html_output)
 
 # make the server publicly available via port 5004
 # flask --app levelsix.py run --host 0.0.0.0 --port 5004
