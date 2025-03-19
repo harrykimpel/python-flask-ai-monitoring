@@ -6,10 +6,11 @@ import google.generativeai as genai
 
 genai.configure(api_key=os.environ["API_KEY"])
 
-GEMINI_MODEL = "gemini-1.5-flash"
+#GEMINI_MODEL = "gemini-1.5-flash"
 #GEMINI_MODEL = "gemini-1.5-flash-8b"
 #GEMINI_MODEL = "gemini-1.5-pro"
 #GEMINI_MODEL = "gemini-1.0-pro"
+GEMINI_MODEL = "gemini-2.0-flash-lite"
 
 app = Flask(__name__)
 
