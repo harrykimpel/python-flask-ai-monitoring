@@ -2,12 +2,7 @@
 .vscode
 chat-frontend/.venv
 chat-frontend/__pycache__
-1-python-gemini/__pycache__
-1-python-gemini/.venv
-2-python-openai-newrelic/__pycache__
-2-python-openai-newrelic/.venv
-2-python-openai-newrelic/newrelic-python-agent.log
-2-python-gemini-newrelic/__pycache__
-2-python-gemini-newrelic/.venv
-2-python-gemini-newrelic/newrelic-python-agent.log
+*/__pycache__
+*/.venv
+*/newrelic-python-agent.log
 
