@@ -14,8 +14,9 @@ newrelic.agent.initialize('newrelic.ini')
 client = boto3.client("bedrock-runtime", region_name="us-east-1")
 
 # Set the model ID, e.g., Titan Text Premier.¨
+model_id = os.environ["MODEL"]  # e.g. "amazon.titan-text-lite-v1"
 # model_id = "amazon.titan-text-lite-v1"
-model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
+# model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
 # model_id = "anthropic.claude-3-5-sonnet-20240620-v1:0"
 # model_id = "anthropic.claude-v2"
 # model_id = "anthropic.claude-v2:1"
