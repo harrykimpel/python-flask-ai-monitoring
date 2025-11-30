@@ -1,3 +1,4 @@
+newrelic
 flask
 openai
 google-generativeai

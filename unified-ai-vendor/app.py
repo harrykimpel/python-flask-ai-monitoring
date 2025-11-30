@@ -3,11 +3,16 @@ Unified AI Vendor Flask Application
 Integrates multiple AI vendors with a unified interface
 """
 
+# import the New Relic Python Agent
+import newrelic.agent
 from dotenv import load_dotenv
 import os
 import markdown
 from flask import Flask, render_template, request, jsonify
 from vendor_clients import VendorFactory
+
+# initialize the New Relic Python agent
+newrelic.agent.initialize('newrelic.ini')
 
 # Initialize Flask app
 app = Flask(

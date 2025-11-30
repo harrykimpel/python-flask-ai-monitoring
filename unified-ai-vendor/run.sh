@@ -15,17 +15,17 @@ fi
 echo "✓ Python 3 found"
 
 # Create virtual environment if it doesn't exist
-if [ ! -d "venv" ]; then
+if [ ! -d ".venv" ]; then
     echo ""
     echo "Creating virtual environment..."
-    python3 -m venv venv
+    python3 -m venv .venv
     echo "✓ Virtual environment created"
 fi
 
 # Activate virtual environment
 echo ""
 echo "Activating virtual environment..."
-source venv/bin/activate || . venv/Scripts/activate
+source .venv/bin/activate || . .venv/Scripts/activate
 echo "✓ Virtual environment activated"
 
 # Install requirements
@@ -62,4 +62,4 @@ echo ""
 echo "Press Ctrl+C to stop the server"
 echo ""
 
-python app.py
+python3 app.py

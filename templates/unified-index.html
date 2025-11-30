@@ -456,15 +456,67 @@
       {% endfor %}
     };
 
+    // Local storage keys
+    const STORAGE_VENDOR_KEY = 'ai_vendor_selection';
+    const STORAGE_MODEL_KEY = 'ai_model_selection';
+
+    // Save vendor and model to localStorage
+    function saveSelection() {
+      const vendorSelect = document.getElementById('vendor-select');
+      const modelSelect = document.getElementById('model-select');
+      localStorage.setItem(STORAGE_VENDOR_KEY, vendorSelect.value);
+      localStorage.setItem(STORAGE_MODEL_KEY, modelSelect.value);
+    }
+
+    // Load vendor and model from localStorage
+    function loadSelection() {
+      const savedVendor = localStorage.getItem(STORAGE_VENDOR_KEY);
+      const savedModel = localStorage.getItem(STORAGE_MODEL_KEY);
+      
+      const vendorSelect = document.getElementById('vendor-select');
+      
+      if (savedVendor && vendorData[savedVendor]) {
+        vendorSelect.value = savedVendor;
+      }
+      
+      updateModels();
+      
+      // Set the saved model after models are loaded
+      const modelSelect = document.getElementById('model-select');
+      if (savedModel) {
+        const option = Array.from(modelSelect.options).find(opt => opt.value === savedModel);
+        if (option) {
+          modelSelect.value = savedModel;
+        }
+      }
+    }
+
     // Initialize models on page load
     document.addEventListener('DOMContentLoaded', function() {
-      updateModels();
+      loadSelection();
 
+      const vendorSelect = document.getElementById('vendor-select');
+      const modelSelect = document.getElementById('model-select');
       const form = document.getElementById('promptForm');
       const submitBtn = document.getElementById('submitBtn');
 
+      // Save selection when vendor or model changes
+      if (vendorSelect) {
+        vendorSelect.addEventListener('change', function() {
+          updateModels();
+          saveSelection();
+        });
+      }
+
+      if (modelSelect) {
+        modelSelect.addEventListener('change', function() {
+          saveSelection();
+        });
+      }
+
       if (form) {
         form.addEventListener('submit', function(e) {
+          saveSelection();
           submitBtn.disabled = true;
           submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
 
@@ -506,8 +558,8 @@
           modelSelect.appendChild(option);
         });
 
-        // Select first model by default
-        if (modelSelect.options.length > 1) {
+        // Select first model by default if no saved preference
+        if (modelSelect.options.length > 1 && !localStorage.getItem(STORAGE_MODEL_KEY)) {
           modelSelect.selectedIndex = 1;
         }
       }
