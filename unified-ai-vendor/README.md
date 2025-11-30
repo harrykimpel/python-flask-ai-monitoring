@@ -106,6 +106,7 @@ curl http://localhost:5000/api/vendors
 ```
 
 Response:
+
 ```json
 {
   "openai": {
@@ -139,6 +140,7 @@ curl -X POST http://localhost:5000/api/prompt \
 ```
 
 Response:
+
 ```json
 {
   "vendor": "openai",
@@ -154,9 +156,10 @@ Response:
 
 **Required:** `OPENAI_API_KEY`
 
-Get your API key from: https://platform.openai.com/api-keys
+Get your API key from: <https://platform.openai.com/api-keys>
 
 Available Models:
+
 - gpt-4o
 - gpt-4o-mini
 - gpt-4-turbo
@@ -166,14 +169,16 @@ Available Models:
 ### Azure OpenAI
 
 **Required:**
+
 - `AZURE_OPENAI_API_ENDPOINT`
 - `AZURE_OPENAI_API_KEY`
 - `AZURE_OPENAI_MODEL_NAME`
 - `AZURE_OPENAI_DEPLOYMENT_NAME`
 
-Setup: https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource
+Setup: <https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource>
 
 Available Models:
+
 - gpt-4o
 - gpt-4-turbo
 - gpt-4
@@ -183,9 +188,10 @@ Available Models:
 
 **Required:** `GEMINI_API_KEY`
 
-Get your API key from: https://aistudio.google.com/app/apikeys
+Get your API key from: <https://aistudio.google.com/app/apikeys>
 
 Available Models:
+
 - gemini-2.0-flash
 - gemini-1.5-pro
 - gemini-1.5-flash
@@ -195,9 +201,10 @@ Available Models:
 
 **Required:** `GITHUB_TOKEN`
 
-Create a token at: https://github.com/settings/tokens
+Create a token at: <https://github.com/settings/tokens>
 
 Available Models:
+
 - gpt-4o
 - gpt-4o-mini
 - claude-3.5-sonnet
@@ -210,13 +217,14 @@ Available Models:
 
 **Required:** AWS credentials configured
 
-Setup: https://docs.aws.amazon.com/bedrock/latest/userguide/getting-started.html
+Setup: <https://docs.aws.amazon.com/bedrock/latest/userguide/getting-started.html>
 
 ```bash
 aws configure
 ```
 
 Available Models:
+
 - amazon.titan-text-lite-v1
 - amazon.titan-text-express-v1
 - anthropic.claude-3-5-sonnet-20240620-v1:0
@@ -277,6 +285,7 @@ Flask application with routes:
 ### "Error processing request"
 
 Check the Flask console output for detailed error messages. Common causes:
+
 - Missing API key
 - Invalid model name for the vendor
 - API rate limiting
