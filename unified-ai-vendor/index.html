@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/milligram.css') }}">
+  <title>Unified AI Assistant</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+  <style>
+    body {
+      padding: 40px 0;
+      background: linear-gradient(135deg, #00AC69, #008855);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      color: #fff;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .card {
+      border-radius: 15px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      margin-bottom: 20px;
+      height: 100%;
+      border: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    h3 {
+      color: #fff;
+      font-weight: 700;
+      margin-bottom: 25px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      letter-spacing: 1px;
+    }
+
+    h4 {
+      color: #222;
+      font-weight: 600;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    h4:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(90deg, #00AC69, #008855);
+      border-radius: 3px;
+    }
+
+    textarea {
+      border-radius: 12px;
+      border: 1px solid #eaeaea;
+      padding: 15px;
+      min-height: 200px;
+      width: 100%;
+      margin-bottom: 15px;
+      font-size: 16px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      resize: none;
+    }
+
+    textarea:focus {
+      border-color: #00AC69;
+      box-shadow: 0 3px 15px rgba(0, 172, 105, 0.2);
+      outline: none;
+    }
+
+    .form-select, .form-control {
+      border-radius: 12px;
+      border: 1px solid #eaeaea;
+      padding: 12px 15px;
+      font-size: 14px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .form-select:focus, .form-control:focus {
+      border-color: #00AC69;
+      box-shadow: 0 3px 15px rgba(0, 172, 105, 0.2);
+      outline: none;
+    }
+
+    .btn-submit {
+      background: linear-gradient(90deg, #00AC69, #008855);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 172, 105, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(90deg, #008855, #00AC69);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 172, 105, 0.4);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #markdown-preview {
+      background-color: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin-top: 10px;
+      color: #333;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+      min-height: 300px;
+      max-height: 500px;
+      overflow-y: auto;
+      font-size: 16px;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    label {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .container {
+      max-width: 1200px;
+    }
+
+    .prompt-section {
+      margin-bottom: 25px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .prompt-title {
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 15px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .prompt-title::before {
+      content: "💡";
+      font-size: 18px;
+    }
+
+    .prompt-list {
+      max-height: 200px;
+      overflow-y: auto;
+      padding-right: 5px;
+      scrollbar-width: thin;
+      scrollbar-color: #00AC69 #f0f0f0;
+    }
+
+    .prompt-item {
+      padding: 12px 15px;
+      margin-bottom: 8px;
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      color: #333;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-left: 3px solid #00AC69;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+    }
+
+    .prompt-item:hover {
+      background-color: #e0f0e8;
+      transform: translateX(5px);
+      box-shadow: 0 4px 8px rgba(0, 172, 105, 0.15);
+    }
+
+    #response-card {
+      min-height: 400px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #response-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      height: 3px;
+      background: linear-gradient(90deg, #00AC69, #008855);
+      border-radius: 3px;
+      z-index: 1;
+    }
+
+    .vendor-badge {
+      display: inline-block;
+      background-color: #e0f0e8;
+      color: #008855;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .unavailable-vendor {
+      opacity: 0.5;
+    }
+
+    .error-alert {
+      border-radius: 12px;
+      border: 1px solid #f5c6cb;
+      background-color: #f8d7da;
+      color: #721c24;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 10px rgba(255, 0, 0, 0.1);
+    }
+
+    .success-alert {
+      border-radius: 12px;
+      border: 1px solid #c3e6cb;
+      background-color: #d4edda;
+      color: #155724;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 10px rgba(0, 255, 0, 0.1);
+    }
+
+    .typing-indicator {
+      display: flex;
+      padding: 15px;
+      justify-content: flex-start;
+    }
+
+    .typing-indicator span {
+      height: 10px;
+      width: 10px;
+      background-color: #00AC69;
+      border-radius: 50%;
+      display: inline-block;
+      margin: 0 2px;
+      opacity: 0.6;
+      animation: typing 1s infinite ease-in-out;
+    }
+
+    .typing-indicator span:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .typing-indicator span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-indicator span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typing {
+      0%, 60%, 100% {
+        transform: translateY(0);
+      }
+      30% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .vendor-selector-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .selector-wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (max-width: 767.98px) {
+      .vendor-selector-group {
+        grid-template-columns: 1fr;
+      }
+      .row {
+        flex-direction: column;
+      }
+      .col-md-6 {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="text-center mb-4">
+      <h3>🤖 Unified AI Assistant</h3>
+      <p style="color: rgba(255,255,255,0.8); margin-bottom: 0;">Choose your AI vendor and model</p>
+    </div>
+
+    <div class="row">
+      <!-- Input Card -->
+      <div class="col-md-6 mb-4 mb-md-0">
+        <div class="card">
+          <h4 class="mb-4">Ask a Question</h4>
+
+          {% if error %}
+          <div class="error-alert">
+            <i class="bi bi-exclamation-circle"></i> {{ error }}
+          </div>
+          {% endif %}
+
+          {% if prompts %}
+          <div class="prompt-section">
+            <div class="prompt-title">Sample Prompts</div>
+            <div class="prompt-list">
+              {% for prompt in prompts %}
+              <div class="prompt-item" onclick="selectPrompt('{{ prompt }}')">
+                {{ prompt }}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          <form action="/prompt" method="POST" id="promptForm">
+            <!-- Vendor and Model Selectors -->
+            <div class="vendor-selector-group">
+              <div class="selector-wrapper">
+                <label for="vendor-select" class="form-label">
+                  <i class="bi bi-building"></i> AI Vendor
+                </label>
+                <select id="vendor-select" name="vendor" class="form-select" required onchange="updateModels()">
+                  {% for vendor_name, vendor_data in vendors.items() %}
+                    <option value="{{ vendor_name }}" {% if vendor_data.available %}selected{% endif %}>
+                      {{ vendor_name | capitalize }}
+                      {% if not vendor_data.available %}(Unavailable){% endif %}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="selector-wrapper">
+                <label for="model-select" class="form-label">
+                  <i class="bi bi-cpu"></i> Model
+                </label>
+                <select id="model-select" name="model" class="form-select" required>
+                  <option value="">Select a model...</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Input Textarea -->
+            <div class="mb-4">
+              <label for="input-textarea" class="form-label">Ask me anything:</label>
+              {% if input %}
+              <textarea
+                id="input-textarea"
+                class="form-control"
+                name="input"
+                required>{{ input }}</textarea>
+              {% else %}
+              <textarea
+                id="input-textarea"
+                class="form-control"
+                placeholder="Type your question or prompt here..."
+                name="input"
+                required></textarea>
+              {% endif %}
+            </div>
+
+            <div class="text-end">
+              <button type="submit" class="btn-submit" id="submitBtn">
+                <i class="bi bi-send-fill"></i> Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Response Card -->
+      <div class="col-md-6">
+        <div id="response-card" class="card" {% if not output %}style="opacity: 0.8;"{% endif %}>
+          <h4 class="mb-4">
+            <i class="bi bi-chat-dots"></i> AI Response
+            {% if selected_vendor %}
+            <span class="vendor-badge">{{ selected_vendor | capitalize }}</span>
+            {% endif %}
+          </h4>
+          <div id="markdown-preview">
+            {% if output %}
+              {{ output | safe }}
+            {% else %}
+              <div style="color: #999; text-align: center; padding: 50px 20px;">
+                <i class="bi bi-chat-left" style="font-size: 3em; margin-bottom: 15px;"></i>
+                <p>Select vendor and model, then submit your question to see the response here.</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Vendor and model data
+    const vendorData = {
+      {% for vendor_name, vendor_data in vendors.items() %}
+        '{{ vendor_name }}': {
+          models: [{% for model in vendor_data.models %}'{{ model }}'{{ ", " if not loop.last }}{% endfor %}],
+          available: {{ vendor_data.available | lower }}
+        }{{ ", " if not loop.last }}
+      {% endfor %}
+    };
+
+    // Initialize models on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      updateModels();
+
+      const form = document.getElementById('promptForm');
+      const submitBtn = document.getElementById('submitBtn');
+
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
+
+          const markdownPreview = document.getElementById('markdown-preview');
+          const typingIndicator = document.createElement('div');
+          typingIndicator.className = 'typing-indicator';
+          typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+          markdownPreview.innerHTML = '';
+          markdownPreview.appendChild(typingIndicator);
+        });
+      }
+    });
+
+    // Update models when vendor changes
+    function updateModels() {
+      const vendorSelect = document.getElementById('vendor-select');
+      const modelSelect = document.getElementById('model-select');
+      const selectedVendor = vendorSelect.value;
+
+      // Clear existing options
+      modelSelect.innerHTML = '<option value="">Select a model...</option>';
+
+      // Check if vendor is available
+      if (vendorData[selectedVendor] && !vendorData[selectedVendor].available) {
+        const unavailableOption = document.createElement('option');
+        unavailableOption.value = '';
+        unavailableOption.textContent = 'Vendor not available';
+        unavailableOption.disabled = true;
+        modelSelect.appendChild(unavailableOption);
+        return;
+      }
+
+      // Add models for selected vendor
+      if (vendorData[selectedVendor]) {
+        vendorData[selectedVendor].models.forEach(model => {
+          const option = document.createElement('option');
+          option.value = model;
+          option.textContent = model;
+          modelSelect.appendChild(option);
+        });
+
+        // Select first model by default
+        if (modelSelect.options.length > 1) {
+          modelSelect.selectedIndex = 1;
+        }
+      }
+    }
+
+    // Function to select and populate a prompt
+    function selectPrompt(promptText) {
+      document.getElementById('input-textarea').value = promptText;
+      document.getElementById('input-textarea').focus();
+    }
+  </script>
+</body>
+</html>

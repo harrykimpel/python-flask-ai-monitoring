@@ -1,14 +1,9 @@
-# import the New Relic Python Agent
-# import newrelic.agent
 import os
 from flask import Flask, render_template, request
 import boto3
 from botocore.exceptions import ClientError
 import json
 import markdown
-
-# initialize the New Relic Python agent
-# newrelic.agent.initialize('newrelic.ini')
 
 # Create a Bedrock Runtime client in the AWS Region you want to use.
 client = boto3.client("bedrock-runtime", region_name="us-east-1")
@@ -39,8 +34,7 @@ try:
 except Exception as e:
     print(f"Error reading prompts file: {e}")
 
-
-# taking the input from the user and returning the response from Gemini
+# taking the input from the user and returning the response from AWS Bedrock
 
 
 def chatCompletion(prompt):
@@ -185,7 +179,7 @@ def prompt():
     return render_template("index.html", input=input_prompt, output=html_output, prompts=prompts)
 
 
-# make the server publicly available via port 5004
-# flask --app levelsix.py run --host 0.0.0.0 --port 5004
+# make the server publicly available via port 5002
+# flask --app levelsix.py run --host 0.0.0.0 --port 5002
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", debug=True, port=5004)
+    app.run(host="0.0.0.0", debug=True, port=5002)
