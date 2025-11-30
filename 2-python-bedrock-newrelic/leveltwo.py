@@ -1,5 +1,5 @@
 # import the New Relic Python Agent
-# import newrelic.agent
+import newrelic.agent
 import os
 from flask import Flask, render_template, request
 import boto3
@@ -8,7 +8,7 @@ import json
 import markdown
 
 # initialize the New Relic Python agent
-# newrelic.agent.initialize('newrelic.ini')
+newrelic.agent.initialize('newrelic.ini')
 
 # Create a Bedrock Runtime client in the AWS Region you want to use.
 client = boto3.client("bedrock-runtime", region_name="us-east-1")
