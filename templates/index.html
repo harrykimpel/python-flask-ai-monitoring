@@ -225,6 +225,25 @@
             }
         }
         
+        .logo-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .logo-header img {
+            height: 40px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+
+        .logo-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+        
         /* Loading animation */
         .typing-indicator {
             display: flex;
@@ -300,6 +319,11 @@
 </head>
 <body>
   <div class="container">
+    <div class="logo-header">
+      <img src="{{ url_for('static', filename='assets/newrelic-logo.png') }}" alt="New Relic">
+      <span class="logo-text">DevRel AI Samples</span>
+    </div>
+    
     <div class="text-center mb-4">
       <h3>AI Assistant</h3>
     </div>
